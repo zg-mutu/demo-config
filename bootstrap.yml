@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: ejob
+  cloud:
+    consul:
+      host: 10.0.0.83
+      port: 8500
+      discovery:
+        # 配置优先使用IP注册
+        prefer-ip-address: true
+        # consul 健康检测频率
+        health-check-interval: 15s
+        # 配置注册到consul 服务的id
+        enabled: true
+        service-name: ${spring.application.name}
+        # 实例ID
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+
+  ## feign 注册客户端
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    timeZone: GMT+8
+
+  aop:
+    proxyTargetClass: true
+
+management:
+  endpoint:
+    health:
+      # 是否展示健康检查详情
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,metrics
